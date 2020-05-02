@@ -1,0 +1,42 @@
+
+body {
+	font-family: 'Karla', Helvetica, sans-serif;
+	font-size: 16px;
+}
+
+h1 {
+	font-family: 'IBM Plex Serif', Times, serif;
+	font-size: 30px;
+	text-align: center;
+	position: relative;
+	top: 15px;
+}
+
+a {
+	color: white;
+}
+
+p {
+	line-height: 16px;
+}
+
+.container {
+	background-color: black;
+	color: white;
+	width: 250px;
+	height: auto;
+	margin: auto;
+	padding: 2px 5px 1px 10px;
+}
+
+#ohno {
+	font-size: 12px;
+	font-family: monospace;
+	color: black;
+	text-align: center;
+	margin: 10px;
+}
+
+#ohno a {
+	color: black;
+}
