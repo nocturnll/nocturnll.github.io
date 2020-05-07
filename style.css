@@ -29,7 +29,7 @@ p {
 	padding: 2px 5px 1px 10px;
 }
 
-#nav {
+.nav {
 	font-size: 12px;
 	font-family: monospace;
 	color: black;
@@ -37,7 +37,7 @@ p {
 	margin: 10px;
 }
 
-#nav a {
+.nav a {
 	color: black;
 }
 
