@@ -41,7 +41,7 @@ p {
 	color: black;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (orientation: portrait) {
 	.container {
 		width: 100%;
 	}
