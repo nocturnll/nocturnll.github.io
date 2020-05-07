@@ -37,3 +37,15 @@ a {
 	padding-top: 10px;
 }
 
+@media screen and (max-width: 768px) {
+
+	#textohno {
+		font-size: 2em;
+		width: 90%;
+	}
+
+	button {
+		width: 20%;
+		font-size: 2em;
+	}
+}

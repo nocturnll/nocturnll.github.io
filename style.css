@@ -29,7 +29,7 @@ p {
 	padding: 2px 5px 1px 10px;
 }
 
-#ohno {
+#nav {
 	font-size: 12px;
 	font-family: monospace;
 	color: black;
@@ -37,12 +37,13 @@ p {
 	margin: 10px;
 }
 
-#ohno a {
+#nav a {
 	color: black;
 }
 
-@media screen and (orientation: portrait) {
+@media screen and (max-width: 768px) {
 	.container {
-		width: 80%;
+		width: 60%;
+		text-align: center;
 	}
 }
