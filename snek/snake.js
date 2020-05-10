@@ -149,12 +149,12 @@ const tick = () => {
 	//buff apple spawn logic
 	const spawnBuff = () => {
 		if (!buffAppleActive) {
-//			if (body.length > 4) { // when buff apple will spawn
-			if (body.length > 0) { // uncomment for debugging
+			if (body.length > 4) { // when buff apple will spawn
+//			if (body.length > 0) { // uncomment for debugging
 				let randomChance = 999; // doesnt actually matter
 				randomChance = Math.random();
-//				if (randomChance < 0.02) { // set to 2%
-				if (randomChance > 0.01) { // uncomment for debugging
+				if (randomChance < 0.05) { // set to 5%
+//				if (randomChance > 0.01) { // uncomment for debugging
 					buffApple = [1 + (Math.floor(Math.random() * (GRID_WIDTH - 2))), 1 + (Math.floor(Math.random() * (GRID_WIDTH - 2)))];
 					while (buffApple[0] === food[0] && buffApple[1] === food[1]) { // if buff apple is on food
 						buffApple = [1 + (Math.floor(Math.random() * (GRID_WIDTH - 2))), 1 + (Math.floor(Math.random() * (GRID_WIDTH - 2)))]; // respawn apple
