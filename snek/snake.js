@@ -48,9 +48,12 @@ let direction = 'up';   // Direction (one of 'up', 'down', 'left', 'right')
 let over = false;       // Whether the game is over
 let poisonAppleActive = false;
 let atePoisonApple = false;
+let isPoisoned = false;
 let clearPoisonApple
+let highscore = 0;
 
 // Functions
+
 
 /**
  * Draw the current game state
@@ -74,7 +77,7 @@ const draw = () => {
 	// Draw score
 	ctx.font = '400 15px Courier';
 	ctx.fillStyle = '#000';
-	ctx.fillText((body.length + 1).toString(10), 10, 20);
+	ctx.fillText(body.length.toString(10), 10, 20);
 
 	// Draw "Game over" text if game is over
 	if (over) {
@@ -90,6 +93,13 @@ const draw = () => {
 
 		const playAgain = document.getElementById('playAgain');
 		playAgain.style.display = 'block';
+
+		const highscoreBox = document.getElementById('highscore');
+		if (over && body.length > highscore) {
+			highscore = body.length;
+			console.log('Your new high score is ' + highscore + '!');
+			highscoreBox.innerHTML = highscore;
+		}
 	}
 };
 
@@ -133,21 +143,20 @@ const tick = () => {
 	//poison apple spawn logic
 	const spawnPoison = () => {
 		if (!poisonAppleActive) {
-			if (body.length > 0) { // change this to something that isn't 1 later
-				let randomChance = 999;
+			if (body.length > 4) { // when poison apple will spawn
+				let randomChance = 999; // doesnt actually matter
 				randomChance = Math.random();
-				if (randomChance < 0.9) { // set to 2%
+				if (randomChance < 0.02) { // set to 2%
 					//poisonApple = [Math.floor(Math.random() * GRID_WIDTH), Math.floor(Math.random() * GRID_HEIGHT)];
 					poisonApple = [1 + (Math.floor(Math.random() * (GRID_WIDTH - 2))), 1 + (Math.floor(Math.random() * (GRID_WIDTH - 2)))];
 					while (poisonApple[0] === food[0] && poisonApple[1] === food[1]) { // if poison apple is on food
-						poisonApple = [Math.floor(Math.random() * GRID_WIDTH), Math.floor(Math.random() * GRID_HEIGHT)]; // respawn apple
+						poisonApple = [1 + (Math.floor(Math.random() * (GRID_WIDTH - 2))), 1 + (Math.floor(Math.random() * (GRID_WIDTH - 2)))]; // respawn apple
 					};
 					poisonAppleActive = true; // sets poison apple flag
 					clearPoisonApple = setTimeout(() => {
 						poisonAppleActive = false;
 						poisonApple = [];
-						console.log('cleared');
-					}, 6000); // sets flag to false, resets poison apple location -- 6sec
+					}, 6000); // sets flag to false, resets poison apple location after 6sec
 				}
 			}
 		}
@@ -170,7 +179,8 @@ const tick = () => {
 
 		if (head[0] === poisonApple[0] && head[1] === poisonApple[1]) {
 			atePoisonApple = true;
-			console.log('Ate a poison apple!');
+			isPoisoned = true;
+			console.log('Ate a poison apple! Oh no!');
 			BODY_COLOR = '#EA3C53';
 			HEAD_COLOR = '#960018';
 			poisonApple = [];
@@ -183,6 +193,7 @@ const tick = () => {
 				HEAD_COLOR = '#2B5EA6';
 				BODY_COLOR = '#CFA5C8';
 				poisonAppleActive = false;
+				isPoisoned = false;
 				}, 9000);
 		}
 	};
@@ -225,7 +236,7 @@ const onKeyPress = (e) => {
 
 	const pressed = e.which;
 
-	if (!atePoisonApple) {
+	if (!isPoisoned) {
 		// set direction based on pressed key
 		switch (pressed) {
 			case KEY_UP:
@@ -265,6 +276,12 @@ const resetGame = () => {
 	food = [2, 2];      // Food cell [x, y]
 	direction = 'up';   // Direction (one of 'up', 'down', 'left', 'right')
 	over = false;       // Whether the game is over
+	atePoisonApple = false;
+	isPoisoned = false;
+	poisonAppleActive = false;
+	poisonApple = [];
+	HEAD_COLOR = '#2B5EA6';
+	BODY_COLOR = '#CFA5C8';
 	draw();
 	tick();
 	playAgain.style.display = 'none';
