@@ -1,0 +1,13 @@
+20200510
++ two new buffs, speedy and poison
++ when buff spawns 50/50 chance of being either
++ poison reverses input
++ speedy makes u fast
++ highscore tracker
++ long snek goes faster
+
+future ideas
+- spawning walls
+- persistent hs tracker
+- rival snek ai
+- xtreme mode 7
