@@ -37,20 +37,25 @@ const GRID_HEIGHT = 25;
 let HEAD_COLOR = '#2B5EA6';
 let BODY_COLOR = '#CFA5C8';
 const FOOD_COLOR = '#FFE38F';
-const POISON_COLOR = '#CE2029';
+const BUFF_COLOR = '#F60';
+const SPEEDY_COLOR = '#4CBB17';
 
 // Snake
 let head = [13, 13];    // Head cell [x, y]
 let body = [];          // Body cell [[x, y], [x, y], ...]
 let food = [Math.floor(Math.random() * GRID_WIDTH), Math.floor(Math.random() * GRID_HEIGHT)];      // Food cell [x, y]
-let poisonApple = [];      // Food cell [x, y]
+let buffApple = [];      // buff cell [x,y]
 let direction = 'up';   // Direction (one of 'up', 'down', 'left', 'right')
 let over = false;       // Whether the game is over
-let poisonAppleActive = false;
-let atePoisonApple = false;
-let isPoisoned = false;
-let clearPoisonApple
-let highscore = 0;
+let buffAppleActive = false; // is there a buff apple on the field
+let ateBuffApple = false; // did u eat the buff apple
+let isPoisoned = false; // r u poisoned
+let isSpeedy = false; // r u speedy
+let buffType = ''; // what kind of buff apple is it
+let clearBuffApple // a timeout that despawns the buff apple
+let highscore = 0; // ur highscore (doesnt persist across sessions)
+let baseSpeed = 300; // how fast the game plays, 300ms
+let newSpeed = 0; // used in tick speed calculation to make it go faster
 
 // Functions
 
@@ -70,8 +75,9 @@ const draw = () => {
 	drawCell(food[0], food[1], FOOD_COLOR);
 	drawCell(head[0], head[1], HEAD_COLOR);
 
-	if (poisonAppleActive) {
-		drawCell(poisonApple[0], poisonApple[1], POISON_COLOR);
+	// draw buff apple
+	if (buffAppleActive) {
+		drawCell(buffApple[0], buffApple[1], BUFF_COLOR);
 	}
 
 	// Draw score
@@ -140,23 +146,30 @@ const tick = () => {
 		}
 	};
 
-	//poison apple spawn logic
-	const spawnPoison = () => {
-		if (!poisonAppleActive) {
-			if (body.length > 4) { // when poison apple will spawn
+	//buff apple spawn logic
+	const spawnBuff = () => {
+		if (!buffAppleActive) {
+			if (body.length > 4) { // when buff apple will spawn
+//			if (body.length > 0) { // uncomment for debugging
 				let randomChance = 999; // doesnt actually matter
 				randomChance = Math.random();
-				if (randomChance < 0.02) { // set to 2%
-					//poisonApple = [Math.floor(Math.random() * GRID_WIDTH), Math.floor(Math.random() * GRID_HEIGHT)];
-					poisonApple = [1 + (Math.floor(Math.random() * (GRID_WIDTH - 2))), 1 + (Math.floor(Math.random() * (GRID_WIDTH - 2)))];
-					while (poisonApple[0] === food[0] && poisonApple[1] === food[1]) { // if poison apple is on food
-						poisonApple = [1 + (Math.floor(Math.random() * (GRID_WIDTH - 2))), 1 + (Math.floor(Math.random() * (GRID_WIDTH - 2)))]; // respawn apple
+				if (randomChance < 0.05) { // set to 5%
+//				if (randomChance > 0.01) { // uncomment for debugging
+					buffApple = [1 + (Math.floor(Math.random() * (GRID_WIDTH - 2))), 1 + (Math.floor(Math.random() * (GRID_WIDTH - 2)))];
+					while (buffApple[0] === food[0] && buffApple[1] === food[1]) { // if buff apple is on food
+						buffApple = [1 + (Math.floor(Math.random() * (GRID_WIDTH - 2))), 1 + (Math.floor(Math.random() * (GRID_WIDTH - 2)))]; // respawn apple
 					};
-					poisonAppleActive = true; // sets poison apple flag
-					clearPoisonApple = setTimeout(() => {
-						poisonAppleActive = false;
-						poisonApple = [];
-					}, 6000); // sets flag to false, resets poison apple location after 6sec
+					buffAppleActive = true; // sets buff apple flag
+					let buffRandom = Math.random();
+					if (buffRandom > 0.5) {
+						buffType = 'poison';
+					} else {
+						buffType = 'speedy';
+					};
+					clearBuffApple = setTimeout(() => {
+						buffAppleActive = false;
+						buffApple = [];
+					}, 6000); // sets flag to false, resets buff apple location after 6sec
 				}
 			}
 		}
@@ -177,23 +190,34 @@ const tick = () => {
 			food = [Math.floor(Math.random() * GRID_WIDTH), Math.floor(Math.random() * GRID_HEIGHT)];
 		}
 
-		if (head[0] === poisonApple[0] && head[1] === poisonApple[1]) {
-			atePoisonApple = true;
-			isPoisoned = true;
-			console.log('Ate a poison apple! Oh no!');
-			BODY_COLOR = '#EA3C53';
-			HEAD_COLOR = '#960018';
-			poisonApple = [];
+		if (head[0] === buffApple[0] && head[1] === buffApple[1]) {
+			ateBuffApple = true;
+			console.log(buffType);
+			if (buffType === 'poison') {
+				isPoisoned = true;
+				console.log('Ate a poison apple! Oh no!');
+				BODY_COLOR = '#EA3C53';
+				HEAD_COLOR = '#960018';
+				buffApple = [];
+			} else if (buffType === 'speedy') {
+				isSpeedy = true;
+				console.log('Ate a speedy apple! Zoom!');
+				HEAD_COLOR = '#0B6623';
+				BODY_COLOR = '#00AB6B';
+				buffApple = [];
 		}
+	}
 
-		if (atePoisonApple) {
-			atePoisonApple = false;
-			clearTimeout(clearPoisonApple); // cancels the poison apple timeout so it doesn't respawn early
+		if (ateBuffApple) {
+			ateBuffApple = false;
+			clearTimeout(clearBuffApple); // cancels the buff apple timeout so it doesn't respawn early
 			setTimeout(() => {
 				HEAD_COLOR = '#2B5EA6';
 				BODY_COLOR = '#CFA5C8';
-				poisonAppleActive = false;
+				buffAppleActive = false;
+				isSpeedy = false;
 				isPoisoned = false;
+				buffType = '';
 				}, 9000);
 		}
 	};
@@ -214,16 +238,22 @@ const tick = () => {
 		}
 	};
 
-	spawnPoison();
+	spawnBuff();
 	maybeEat();
 	move();
 	maybeEnd();
 
 	draw();
 
-	if (!over) {
-		// Schedule the next game tick (every 300ms, make this lower for higher difficulty)
-		timeout = setTimeout(tick, 300);
+	if (!over) { // schedules the next tick of the game
+		if (isSpeedy && buffType === 'speedy') { // speedy boi goes 100ms fast
+			timeout = setTimeout(tick, 100);
+		} else {
+			if (body.length < 67) { // while youre 66 long or less (should work out to 100ms~ max)
+				newSpeed = baseSpeed - (body.length * 3); // get faster as u get longer
+			}
+			timeout = setTimeout(tick, newSpeed);
+		}
 	}
 };
 
@@ -276,10 +306,10 @@ const resetGame = () => {
 	food = [2, 2];      // Food cell [x, y]
 	direction = 'up';   // Direction (one of 'up', 'down', 'left', 'right')
 	over = false;       // Whether the game is over
-	atePoisonApple = false;
+	ateBuffApple = false;
 	isPoisoned = false;
-	poisonAppleActive = false;
-	poisonApple = [];
+	buffAppleActive = false;
+	buffApple = [];
 	HEAD_COLOR = '#2B5EA6';
 	BODY_COLOR = '#CFA5C8';
 	draw();
