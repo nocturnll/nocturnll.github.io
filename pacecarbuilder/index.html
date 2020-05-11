@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pacecar Game Build Helper</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div id="contents">
+      <p id="title">Welcome to Pacecar Builder.</p>
+      <div class="input">
+        <label for="pagetitle">Page Title </label>
+        <input type="text" id="pagetitle" name="pagetitle" /><br /><br />
+        HTML Formatted Dialog<br />
+        <textarea id="dialog"></textarea><br /><br />
+        <div class="choicesbox">
+          <label for="choice1">Choice (1) </label>
+          <input type="text" id="choice1" name="choice1" value="Gas" />
+          <label for="action1">Action (1) </label>
+          <input
+            type="text"
+            id="action1"
+            name="action1"
+            value="You perform an action."
+          />
+          <label for="nextpage1">Next Page (1) </label>
+          <input
+            type="text"
+            id="nextpage1"
+            name="nextpage1"
+            value="TBD"
+          /><br /><br />
+          <label for="choice2">Choice (2) </label>
+          <input type="text" id="choice2" name="choice2" />
+          <label for="action2">Action (2) </label>
+          <input type="text" id="action2" name="action2" />
+          <label for="nextpage2">Next Page (2) </label>
+          <input type="text" id="nextpage2" name="nextpage2" /><br />
+        </div>
+        <br /><button id="submit">Generate Code</button>
+      </div>
+      <div class="output">
+        <br /><br />
+        Output <br />
+        <textarea id="output"></textarea>
+      </div>
+    </div>
+    <script src="script.js" async></script>
+  </body>
+</html>

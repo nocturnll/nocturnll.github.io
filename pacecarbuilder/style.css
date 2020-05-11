@@ -1,0 +1,49 @@
+body {
+  font-size: 12px;
+  font-family: monospace;
+  margin: 0 auto;
+  width: 90%;
+  text-align: center;
+}
+
+#contents {
+  width: 50%
+  margin: 0 auto;
+}
+
+input {
+  font-family: monospace;
+  width: 180px
+}
+
+.input {
+    color: blue;
+}
+
+.choicesbox {
+  width: 50%;
+  margin: 0 auto;
+}
+
+#title {
+  font-weight: bold;
+  font-size: 16px
+}
+
+#dialog {
+  width: 50%;
+  height: 160px;
+}
+
+#submit {
+  font-family: monospace;
+}
+
+#output {
+  width: 50%;
+  height: 200px;
+}
+
+.output {
+
+}
