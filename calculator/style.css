@@ -1,0 +1,57 @@
+body {
+    font-family: monospace;
+    
+    
+}
+
+.container {
+    text-align: center;
+    margin: 5em auto;
+    font-size: 30px;
+    
+}
+
+.output {
+    width:403px;
+    margin: 1px auto;
+    background-color: lightgreen;
+    text-align: right;
+    
+}
+
+.input {
+    display: inline-grid;
+    grid-template-columns: repeat(4, 100px);
+    grid-template-rows: repeat(6, 1fr);
+    grid-column-gap: 1px;
+    grid-row-gap: 1px;
+    
+}
+
+.button {
+    background-color: lightgrey;
+    padding: 5px;
+}
+
+.button:hover {
+    background: lightyellow;
+}
+
+.button:active {
+    border-color: grey;
+    background-color: white;
+}
+
+#equals {
+    grid-column-start: 3;
+    grid-column-end: 5;
+    background-color: lightgreen;
+}
+
+#equals:hover {
+    background-color: palegoldenrod;
+}
+
+#equals:active {
+    background-color: white;
+}
