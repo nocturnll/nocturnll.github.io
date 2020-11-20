@@ -6,6 +6,11 @@ body {
 }
 
 h1 {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+h2 {
 	font-family: 'IBM Plex Serif', Times, serif;
 	font-size: 24px;
 	text-align: center;
@@ -21,6 +26,10 @@ img {
     width: 100%;
     max-width: 600px;
     height: auto;
+}
+
+.image:hover {
+	width:100%
 }
 a {
 	color: rgb(24, 122, 101);
@@ -54,6 +63,14 @@ p {
 .backbutton {
 	text-align: left;
 	font-size: 10px;
+}
+
+.lang {
+	color: rgb(221, 24, 195);
+}
+
+#smol {
+	width:300px
 }
 
 @media screen and (max-width: 768px) {
